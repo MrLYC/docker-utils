@@ -7,4 +7,5 @@ apk add wget ca-certificates unzip
 
 wget https://github.com/MrLYC/docker-utils/archive/master.zip
 unzip master.zip
-./docker-utils-master/entry.sh
+
+source ${PROJECT_DIR}/entry.sh
