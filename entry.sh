@@ -13,8 +13,8 @@ trap onexit EXIT
 
 mkdir tmp
 
-env PYTHON=${CUR_DIR} python -m unittest tests.test_utils
+py.test -v tests/test_utils.py
 
 if [ "${IAMGE_TYPE}" != "" ]; then
-    env PYTHON=${CUR_DIR} python -m unittest tests.test_utils_${IAMGE_TYPE}
+    py.test -v tests/test_utils_${IAMGE_TYPE}.py
 fi
