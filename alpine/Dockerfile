@@ -4,6 +4,7 @@ MAINTAINER lyc <imyikong@gmail.com>
 
 ADD build.sh /build.sh
 ENV DOCKER_DEBUG 0
+ENV IMAGE_TYPE "alpine"
 ENV PROJECT_DIR "/docker-utils-master"
 
 WORKDIR /
