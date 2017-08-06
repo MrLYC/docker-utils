@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -e
 
 apk update
 apk add wget ca-certificates unzip python py-pip

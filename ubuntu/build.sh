@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -e
 
 apt-get update
 apt-get install -y wget ca-certificates unzip python python-pip

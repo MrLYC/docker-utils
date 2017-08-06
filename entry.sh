@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 date
 CUR_DIR=`pwd`
 PROJECT_DIR=${PROJECT_DIR:-${CUR_DIR}}

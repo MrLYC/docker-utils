@@ -1,8 +1,9 @@
 #!/bin/sh
 
-set -x
+set -e
 
 yum update
+yum install -y epel-release
 yum install -y wget ca-certificates unzip python python-pip
 
 pip install pytest
