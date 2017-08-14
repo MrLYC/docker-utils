@@ -4,6 +4,35 @@ utils_info() {
     echo "Docker shell utils by LYC"
 }
 
+color_print() {
+    export color_black=0
+    export color_red=1
+    export color_green=2
+    export color_yellow=3
+    export color_blue=4
+    export color_purple=5
+    export color_cyan=6
+    export color_white=7
+
+    export mode_fg=3
+    export mode_bg=4
+
+    export style_nothing=0
+    export style_bold=1
+    export style_underline=4
+
+    content="$1"
+    shift 1
+    if [ "$#" != "0" ]; then
+        export $@
+    fi
+
+    color="color_${color:-white}"
+    color_mode="mode_${mode:-fg}"
+    style="style_${style:-nothing}"
+    printf "\033[${!style};${!color_mode}${!color}m${content}\033[0m"
+}
+
 make_sure_dir_exists() {
 	if [ -d "$1" ]; then
 		return
@@ -14,6 +43,7 @@ make_sure_dir_exists() {
 	mkdir -p "$1"
 }
 
+
 make_sure_not_exists() {
 	if [ ! -e "$1" ]; then
 		return
@@ -21,8 +51,18 @@ make_sure_not_exists() {
 	rm -rf "$1"
 }
 
+path_join() {
+    printf "${1%/}/${2#/}"
+}
+
+link_dir() {
+    ensure_not_exists $1
+    ensure_parent_dir_exists "$(path_join $2 $3)"
+    ln -s "$(path_join $1 $3)" "$(path_join $2 $3)"
+}
+
 if [ "$#" != 0 ]; then
     cmd="$1"
     shift 1
-    $cmd $@
+    $cmd "$@"
 fi

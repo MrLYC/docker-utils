@@ -5,25 +5,29 @@ from subprocess import Popen, PIPE
 
 
 class Module(object):
+
     def __getattr__(self, name):
         module = __import__(name)
         setattr(self, name, module)
         return module
-        
+
+
 module = Module()
 
 
 class Command(object):
+
     class CommandError(Exception):
+
         def __init__(self, result, *args, **kwargs):
             self.result = result
             super(CommandError, self).__init__(*args, **kwargs)
 
     CommandResult = namedtuple("CommandResult", ["code", "stdout", "stderr"])
-    
+
     def __init__(self, utils_path):
         self.utils_path = utils_path
-        
+
     def call_command(self, command, args=(), stdin=None):
         shell = [self.utils_path, command]
         shell.extend(args)
@@ -40,6 +44,7 @@ class Command(object):
 
 
 class UtilsCommand(Command):
+
     def __init__(self, postfix=None):
         if postfix is True:
             postfix = os.getenv("IMAGE_TYPE", "")
@@ -49,12 +54,17 @@ class UtilsCommand(Command):
         )
         utils_path = os.path.join(root, utils_name)
         super(UtilsCommand, self).__init__(utils_path)
-        
+
     @classmethod
     def call(cls, command, *args):
         cmd = cls()
         return cmd.call_command(command, args)
-        
+
+    @classmethod
+    def check_call(cls, command, *args):
+        result = cls.call(command, *args)
+        return result.stdout
+
     @classmethod
     def postfix_call(cls, command, *args):
         cmd = cls(True)
