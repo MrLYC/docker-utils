@@ -15,13 +15,14 @@ class Module(object):
 module = Module()
 
 
+class CommandError(Exception):
+
+    def __init__(self, result, *args, **kwargs):
+        self.result = result
+        super(CommandError, self).__init__(*args, **kwargs)
+
+
 class Command(object):
-
-    class CommandError(Exception):
-
-        def __init__(self, result, *args, **kwargs):
-            self.result = result
-            super(CommandError, self).__init__(*args, **kwargs)
 
     CommandResult = namedtuple("CommandResult", ["code", "stdout", "stderr"])
 
@@ -39,7 +40,7 @@ class Command(object):
         code = process.poll()
         result = self.CommandResult(code=code, stdout=stdout, stderr=stderr)
         if code != 0:
-            raise self.CommandError(result, stderr)
+            raise CommandError(result, stderr)
         return result
 
 
