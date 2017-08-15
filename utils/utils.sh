@@ -24,7 +24,7 @@ color_print() {
     content="$1"
     shift 1
     if [ "$#" != "0" ]; then
-        export $@
+        export "$@"
     fi
 
     color=$(eval echo "\$color_${color:-yellow}")
