@@ -27,10 +27,10 @@ color_print() {
         export $@
     fi
 
-    color="color_${color:-white}"
-    color_mode="mode_${mode:-fg}"
-    style="style_${style:-nothing}"
-    printf "\033[${!style};${!color_mode}${!color}m${content}\033[0m"
+    color=$(eval echo "\$color_${color:-yellow}")
+    color_mode=$(eval echo "\$mode_${mode:-fg}")
+    style=$(eval echo "\$style_${style:-nothing}")
+    printf "\033[${style};${color_mode}${color}m${content}\033[0m"
 }
 
 make_sure_dir_exists() {
