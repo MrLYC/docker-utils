@@ -73,10 +73,16 @@ make_sure_not_exists() {
 # region file
 
 is_str_in_file() {
+    if [ "$1" = "" ]; then
+        return 1
+    fi
     grep -Fq "$1" "$2"
 }
 
 is_line_in_file() {
+    if [ "$1" = "" ]; then
+        return 1
+    fi
     grep -Fxq "$1" "$2"
 }
 

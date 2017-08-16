@@ -162,8 +162,8 @@ class TestIsStrInFile(TestCase):
                 raise
 
     def test2(self):
-        result = UtilsCommand.call("is_str_in_file", "", self.fp.name)
-        self.assertEqual(result.code, 0)
+        with self.assertRaises(CommandError):
+            UtilsCommand.call("is_str_in_file", "", self.fp.name)
 
 
 class TestIsLineInFile(TestCase):
@@ -191,8 +191,8 @@ class TestIsLineInFile(TestCase):
                 raise
 
     def test2(self):
-        result = UtilsCommand.call("is_line_in_file", "", self.fp.name)
-        self.assertEqual(result.code, 0)
+        with self.assertRaises(CommandError):
+            UtilsCommand.call("is_line_in_file", "", self.fp.name)
 
 
 class TestWriteLineOnce(TestCase):
