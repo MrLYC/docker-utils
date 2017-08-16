@@ -4,6 +4,8 @@ utils_info() {
     echo "Docker shell utils by LYC"
 }
 
+# region functional
+
 color_print() {
     export color_black=0
     export color_red=1
@@ -33,6 +35,14 @@ color_print() {
     printf "\033[${style};${color_mode}${color}m${content}\033[0m"
 }
 
+path_join() {
+    printf "${1%/}/${2#/}"
+}
+
+# end functional
+
+# region filesystem
+
 make_sure_dir_exists() {
 	if [ -d "$1" ]; then
 		return
@@ -43,7 +53,6 @@ make_sure_dir_exists() {
 	mkdir -p "$1"
 }
 
-
 make_sure_not_exists() {
 	if [ ! -e "$1" ]; then
 		return
@@ -51,15 +60,7 @@ make_sure_not_exists() {
 	rm -rf "$1"
 }
 
-path_join() {
-    printf "${1%/}/${2#/}"
-}
-
-link_dir() {
-    ensure_not_exists $1
-    ensure_parent_dir_exists "$(path_join $2 $3)"
-    ln -s "$(path_join $1 $3)" "$(path_join $2 $3)"
-}
+# end filesystem
 
 if [ "$#" != 0 ]; then
     cmd="$1"
