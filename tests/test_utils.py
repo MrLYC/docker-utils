@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from tests import UtilsCommand, module
+from tests import UtilsCommand, module, CommandError
 
 # region functional
 
@@ -135,3 +135,63 @@ class TestMakeSureNotExists(TestCase):
         self.assertFalse(module.os.path.exists(self.file_path))
 
 # end filesystem
+
+# region file
+
+
+class TestIsStrInFile(TestCase):
+
+    def setUp(self):
+        self.fp = module.tempfile.NamedTemporaryFile()
+        self.fp.write(b'This is a test\ntest success\nwow')
+        self.fp.flush()
+
+    def tearDown(self):
+        self.fp.close()
+
+    def test1(self):
+        result = UtilsCommand.call("is_str_in_file", "success", self.fp.name)
+        self.assertEqual(result.code, 0)
+
+        with self.assertRaises(CommandError):
+            try:
+                UtilsCommand.call("is_str_in_file", "fail", self.fp.name)
+            except CommandError as error:
+                self.assertNotEqual(error.result.code, 0)
+                self.assertEqual(error.result.stderr, "")
+                raise
+
+    def test2(self):
+        result = UtilsCommand.call("is_str_in_file", "", self.fp.name)
+        self.assertEqual(result.code, 0)
+
+
+class TestIsLineInFile(TestCase):
+
+    def setUp(self):
+        self.fp = module.tempfile.NamedTemporaryFile()
+        self.fp.write(b'This is a test\ntest success\nwow')
+        self.fp.flush()
+
+    def tearDown(self):
+        self.fp.close()
+
+    def test1(self):
+        result = UtilsCommand.call(
+            "is_line_in_file", "test success", self.fp.name,
+        )
+        self.assertEqual(result.code, 0)
+
+        with self.assertRaises(CommandError):
+            try:
+                UtilsCommand.call("is_line_in_file", "test fail", self.fp.name)
+            except CommandError as error:
+                self.assertNotEqual(error.result.code, 0)
+                self.assertEqual(error.result.stderr, "")
+                raise
+
+    def test2(self):
+        result = UtilsCommand.call("is_line_in_file", "", self.fp.name)
+        self.assertEqual(result.code, 0)
+
+# end file

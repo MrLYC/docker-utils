@@ -66,6 +66,18 @@ make_sure_not_exists() {
 
 # end filesystem
 
+# region file
+
+is_str_in_file() {
+    grep -Fq "$1" "$2"
+}
+
+is_line_in_file() {
+    grep -Fxq "$1" "$2"
+}
+
+# end
+
 if [ "$#" != 0 ]; then
     cmd="$1"
     shift 1
