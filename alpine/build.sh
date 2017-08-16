@@ -10,4 +10,4 @@ pip install pytest
 wget https://github.com/MrLYC/docker-utils/archive/master.zip
 unzip master.zip
 
-${PROJECT_DIR}/entry.sh
+${PROJECT_DIR}/test.sh
