@@ -53,6 +53,10 @@ make_sure_dir_exists() {
 	mkdir -p "$1"
 }
 
+make_sure_parent_dir_exists() {
+    make_sure_dir_exists $(dirname "$1")
+}
+
 make_sure_not_exists() {
 	if [ ! -e "$1" ]; then
 		return

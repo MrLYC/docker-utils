@@ -83,6 +83,37 @@ class TestMakeSureDirExists(TestCase):
         module.shutil.rmtree(self.dir_path)
 
 
+class TestMakeSureParentDirExists(TestCase):
+    dir_path = "tmp/mbnzxrw"
+
+    def setUp(self):
+        if module.os.path.exists(self.dir_path):
+            module.shutil.rmtree(self.dir_path)
+
+    def tearDown(self):
+        if module.os.path.exists(self.dir_path):
+            module.shutil.rmtree(self.dir_path)
+
+    def test1(self):
+        self.assertFalse(module.os.path.exists(self.dir_path))
+        UtilsCommand.check_call(
+            "make_sure_parent_dir_exists", self.dir_path + "/test",
+        )
+        self.assertTrue(module.os.path.isdir(self.dir_path))
+        UtilsCommand.check_call(
+            "make_sure_parent_dir_exists", self.dir_path + "/test1",
+        )
+        self.assertTrue(module.os.path.isdir(self.dir_path))
+
+    def test2(self):
+        self.assertFalse(module.os.path.exists(self.dir_path))
+        UtilsCommand.check_call(
+            "make_sure_parent_dir_exists", self.dir_path + "/test1/test2",
+        )
+        self.assertTrue(module.os.path.exists(self.dir_path))
+        self.assertTrue(module.os.path.exists(self.dir_path + "/test1"))
+
+
 class TestMakeSureNotExists(TestCase):
     file_path = "tmp/lqkwehj"
 
