@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$DEBUG" = "debug" ]; then
+    set -x
+fi
+
 utils_info() {
     echo "Docker shell utils by LYC"
 }
@@ -74,6 +78,15 @@ is_str_in_file() {
 
 is_line_in_file() {
     grep -Fxq "$1" "$2"
+}
+
+append_line_once() {
+    if is_line_in_file "$1" "$2"; then
+        echo "skip"
+    else
+        echo "$1" >> "$2"
+        echo "ok"
+    fi
 }
 
 # end

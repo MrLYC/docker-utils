@@ -194,4 +194,30 @@ class TestIsLineInFile(TestCase):
         result = UtilsCommand.call("is_line_in_file", "", self.fp.name)
         self.assertEqual(result.code, 0)
 
+
+class TestWriteLineOnce(TestCase):
+
+    def setUp(self):
+        self.fp = module.tempfile.NamedTemporaryFile()
+
+    def tearDown(self):
+        self.fp.close()
+
+    def read(self):
+        self.fp.seek(0)
+        return self.fp.read()
+
+    def test1(self):
+        self.assertEqual(self.read(), "")
+        result = UtilsCommand.check_call(
+            "append_line_once", "test success", self.fp.name,
+        )
+        self.assertEqual(result, "ok\n")
+        self.assertEqual(self.read(), "test success\n")
+        result = UtilsCommand.check_call(
+            "append_line_once", "test success", self.fp.name,
+        )
+        self.assertEqual(result, "skip\n")
+        self.assertEqual(self.read(), "test success\n")
+
 # end file
